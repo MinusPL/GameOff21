@@ -1,0 +1,47 @@
+# =============== #
+# Unity generated #
+# =============== #
+GameOff21/[Tt]emp/
+GameOff21/[Oo]bj/
+GameOff21/[Bb]uild
+GameOff21/[Bb]uilds/
+GameOff21/[Ll]ibrary/
+GameOff21/[Ll]ogs/
+GameOff21/sysinfo.txt
+*.stackdump
+GameOff21/Assets/AssetStoreTools*
+*.apk
+*.unitypackage
+*.log
+ 
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+GameOff21/[Ee]xported[Oo]bj/
+GameOff21/.vs/
+GameOff21/*.userprefs
+GameOff21/*.csproj
+GameOff21/*.pidb
+*.pidb.meta
+GameOff21/*.suo
+GameOff21/*.sln*
+GameOff21/*.user
+GameOff21/*.unityproj
+GameOff21/*.booproj
+GameOff21/.consulo/
+GameOff21/*.tmp
+GameOff21/*.svd
+ 
+# ============ #
+# OS generated #
+# ============ #
+GameOff21/.DS_Store*
+GameOff21/._*
+GameOff21/.Spotlight-V100
+GameOff21/.Trashes
+GameOff21/Icon?
+GameOff21/ehthumbs.db
+GameOff21/[Tt]humbs.db
+GameOff21/[Dd]esktop.ini
+GameOff21/Corridor/Library/ShaderCache/
+GameOff21/Corridor/Library/metadata/
