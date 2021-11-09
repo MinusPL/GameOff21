@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 //TODO ADD COMBAT
 public class PlayerController : MonoBehaviour
@@ -20,17 +21,23 @@ public class PlayerController : MonoBehaviour
     public float walkspeed;
     public float runningSpeed;
     [Header("Camera Stuff")]
+    public CinemachineFreeLook freeLookCam;
     public float rotateSmoothTime = 0.1f;
     public float jumpSpeed = 1.0f;
+    public float minDistance = 1.0f;
+    public float maxDistance = 10.0f;
+    public float distanceStep = 0.5f;
+    public float currentDistance = 5.0f;
     [Header("Character Sizes")]
     public float colliderHeightNormal = 2.0f;
     public float colliderHeightJump = 1.2f;
 
     private Vector2 movement;
     public Vector3 velocity;
-    private Vector2 look;
-    private float pitch;
     private float smoothAngle;
+
+    public float targetDistance = 5.0f;
+    private float targetDistanceVelocity;
 
     private bool isRunning = false;
     public bool onGround = true;
@@ -50,10 +57,16 @@ public class PlayerController : MonoBehaviour
         movement = value.Get<Vector2>();
 	}
 
-	private void Update()
-	{
-        Debug.Log(rb.velocity);
-	}
+    private void Update()
+    {
+        if (targetDistance != currentDistance)
+        {
+            currentDistance = Mathf.SmoothDamp(currentDistance, targetDistance, ref targetDistanceVelocity, 0.1f);
+            freeLookCam.m_Orbits[0].m_Height = currentDistance;
+            freeLookCam.m_Orbits[1].m_Radius = currentDistance;
+            freeLookCam.m_Orbits[2].m_Height = -currentDistance;
+        }
+    }
 
 	private void FixedUpdate()
 	{
@@ -96,21 +109,13 @@ public class PlayerController : MonoBehaviour
                 {
                     velocity = Vector3.zero;
                     
-                }//controller.height = colliderHeightNormal;
+                }
 			}
 		}
-
-        //velocity.y += Physics.gravity.y * Time.deltaTime;
-
-  //      if(IsGrounded())
-		//{
-  //          velocity.y = 0f;
-		//}
 
         if (dir.magnitude > 0.01f)
         {
             rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
-            //rb.position += velocity * Time.deltaTime;
         }
         animator.SetBool("OnGround", IsGrounded());
     }
@@ -126,17 +131,28 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger("Jump");
             rb.velocity = new Vector3(rb.velocity.x, jumpSpeed, rb.velocity.z);
-            //velocity.y = jumpSpeed;
             state = player_states.JUMP_START;
-            //controller.height = colliderHeightJump;
         }
     }
 
+    public void OnZoom(InputValue value)
+	{
+        Debug.Log(value.Get<Vector2>());
+        Vector2 zoomDirection = value.Get<Vector2>().normalized;
+        if(zoomDirection.y < 0f)
+		{
+            targetDistance += distanceStep;
+            if (targetDistance > maxDistance) targetDistance = maxDistance;
+		}
+        else if(zoomDirection.y > 0f)
+		{
+            targetDistance -= distanceStep;
+            if (targetDistance < minDistance) targetDistance = minDistance;
+		}
+    }
 	public bool IsGrounded()
 	{
         bool check = Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, 0.2f);
-        //Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector3.down, Color.blue);
-        //Debug.Log(check);
         return check;
     }
 }
