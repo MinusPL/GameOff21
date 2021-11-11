@@ -7,6 +7,7 @@ GameOff21/[Bb]uild
 GameOff21/[Bb]uilds/
 GameOff21/[Ll]ibrary/
 GameOff21/[Ll]ogs/
+GameOff21/[Ll]ogs/*
 GameOff21/sysinfo.txt
 *.stackdump
 GameOff21/Assets/AssetStoreTools*
@@ -45,3 +46,4 @@ GameOff21/[Tt]humbs.db
 GameOff21/[Dd]esktop.ini
 GameOff21/Corridor/Library/ShaderCache/
 GameOff21/Corridor/Library/metadata/
+*.log
